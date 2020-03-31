@@ -8,7 +8,7 @@ This project is a homework assignment to teach how to get Pycharm setup with Doc
 # Postman Screenshot
 [Postman Request Output](screenshots/postman.PNG)
 
-#SQL Data Screenshot
+# SQL Data Screenshot
 [Pycharm Data Query](screenshots/db_table.PNG)
 
 # Readings
