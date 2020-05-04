@@ -6,18 +6,18 @@ from flask import Flask, Response, render_template
 app = Flask(__name__)
 
 
-def cities_import() -> List[Dict]:
+def movies_import() -> List[Dict]:
     config = {
         'user': 'root',
         'password': 'root',
         'host': 'db',
         'port': '3306',
-        'database': 'citiesData'
+        'database': 'movieRatings'
     }
     connection = mysql.connector.connect(**config)
     cursor = connection.cursor(dictionary=True)
 
-    cursor.execute('SELECT * FROM tblCitiesImport')
+    cursor.execute('SELECT * FROM movies')
     result = cursor.fetchall()
 
     cursor.close()
@@ -29,13 +29,13 @@ def cities_import() -> List[Dict]:
 @app.route('/')
 def index():
     user = {'username': 'Kamal'}
-    cities_data = cities_import()
-    return render_template('index.html', title='Home', user=user, cities=cities_data)
+    movies_data = movies_import()
+    return render_template('index.html', title='Home', user=user, movies=movies_data)
 
 
-@app.route('/api/cities')
-def cities() -> str:
-    js = json.dumps(cities_import())
+@app.route('/api/movies')
+def movies() -> str:
+    js = json.dumps(movies_import())
     resp = Response(js, status=200, mimetype='application/json')
     return resp
 
