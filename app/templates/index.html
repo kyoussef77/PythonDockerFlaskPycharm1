@@ -4,18 +4,18 @@
 <table class="table">
     <thead>
         <tr>
-             <th scope="col">Year</th>
-             <th scope="col">Score</th>
-             <th scope="col">Title</th>
+            <th scope="col">Title</th>
+            <th scope="col">Year</th>
+            <th scope="col">Score</th>
+
         </tr>
     </thead>
     <tbody>
     {% for movie in movies%}
     <tr>
-         <td>{{movie.Year}}</td>
-         <td>{{movie.Score}}</td>
-         <td>{{movie.Title}}</td>
-
+        <td><a href="view/{{movie.id}}">{{movie.Title}}</a></td>
+        <td>{{movie.Year}}</td>
+        <td>{{movie.Score}}</td>
     </tr>
     {% endfor %}
     </tbody>
