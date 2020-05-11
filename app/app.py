@@ -56,7 +56,7 @@ def form_insert_get():
 def form_insert_post():
     cursor = mysql.get_db().cursor()
     inputData = (request.form.get('Year'), request.form.get('Score'), request.form.get('Title'))
-    sql_insert_query = """INSERT INTO movies (Year,Score,Title) VALUES (%s, %s,%s) """
+    sql_insert_query = """INSERT INTO movies (Year,Score,Title) VALUES (%s, %s, %s) """
     cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
     return redirect("/", code=302)
@@ -92,6 +92,13 @@ def api_retrieve(movie_id) -> str:
 
 @app.route('/api/v1/movies/', methods=['POST'])
 def api_add() -> str:
+    content = request.json
+
+    cursor = mysql.get_db().cursor()
+    inputData = (content['Year'], content['Score'], content['Title'])
+    sql_insert_query = """INSERT INTO movies (Score,Year,Title) VALUES (%s, %s,%s) """
+    cursor.execute(sql_insert_query, inputData)
+    mysql.get_db().commit()
     resp = Response(status=201, mimetype='application/json')
     return resp
 
@@ -102,7 +109,7 @@ def api_edit(movie_id) -> str:
     return resp
 
 
-@app.route('/api/movies/<int:moive_id>', methods=['DELETE'])
+@app.route('/api/v1/movies/<int:movie_id>', methods=['DELETE'])
 def api_delete(movie_id) -> str:
     resp = Response(status=210, mimetype='application/json')
     return resp
