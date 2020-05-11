@@ -96,7 +96,7 @@ def api_add() -> str:
 
     cursor = mysql.get_db().cursor()
     inputData = (content['Year'], content['Score'], content['Title'])
-    sql_insert_query = """INSERT INTO movies (Score,Year,Title) VALUES (%s, %s,%s) """
+    sql_insert_query = """INSERT INTO movies (Year, Score, Title) VALUES (%s, %s,%s) """
     cursor.execute(sql_insert_query, inputData)
     mysql.get_db().commit()
     resp = Response(status=201, mimetype='application/json')
@@ -105,13 +105,23 @@ def api_add() -> str:
 
 @app.route('/api/v1/movies/<int:movie_id>', methods=['PUT'])
 def api_edit(movie_id) -> str:
-    resp = Response(status=201, mimetype='application/json')
+    cursor = mysql.get_db().cursor()
+    content = request.json
+    inputData = (content['Year'], content['Score'], content['Title'], movie_id)
+    sql_update_query = """UPDATE movies t SET t.Year = %s, t.Score = %s, t.Title = %s WHERE t.id = %s """
+    cursor.execute(sql_update_query, inputData)
+    mysql.get_db().commit()
+    resp = Response(status=200, mimetype='application/json')
     return resp
 
 
 @app.route('/api/v1/movies/<int:movie_id>', methods=['DELETE'])
 def api_delete(movie_id) -> str:
-    resp = Response(status=210, mimetype='application/json')
+    cursor = mysql.get_db().cursor()
+    sql_delete_query = """DELETE FROM movies WHERE id = %s """
+    cursor.execute(sql_delete_query, movie_id)
+    mysql.get_db().commit()
+    resp = Response(status=200, mimetype='application/json')
     return resp
 
 if __name__ == '__main__':
